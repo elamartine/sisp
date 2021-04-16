@@ -3,16 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login extends CI_Controller
 {
-  public function index()
-  {
-    redirect('/login/create');
-  }
-  public function create()
-  {
-    $this->load->view('template/header');
-    $this->load->view('login/create');
-    $this->load->view('template/footer');
-  }
   public function store()
   {
     $email = $this->input->post("email");
@@ -26,12 +16,16 @@ class Login extends CI_Controller
       redirect('/');
     } else {
       $this->session->set_flashdata("msg", "Login ou senha inválidos");
-      redirect("/login/create");
+      redirect("/");
     }
   }
   public function delete()
   {
+    if (!$this->session->userdata("user")) {
+      redirect('/');
+    }
+
     $this->session->unset_userdata("user");
-    redirect("/login/create");
+    redirect("/");
   }
 }

@@ -3,6 +3,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class TouristSpot extends CI_Controller
 {
+  function __construct()
+  {
+    parent::__construct();
+
+    redirect('/');
+  }
+
   public function index()
   {
     $data['logged'] = !!$this->session->userdata("user");
