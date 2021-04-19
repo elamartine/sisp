@@ -5,17 +5,22 @@ class Login extends CI_Controller
 {
   public function store()
   {
-    $email = $this->input->post("email");
-    $password = $this->input->post("password");
+    $data = array(
+      "email" => $this->input->post("email"),
+      "password" => $this->input->post("password"),
+    );
 
     $this->load->model('UserModel');
-    $user = $this->UserModel->login($email, md5($password))[0];
+    $user = $this->UserModel->login($data["email"], md5($data["password"]));
 
     if ($user) {
       $this->session->set_userdata("user", $user);
+
       redirect('/');
     } else {
-      $this->session->set_flashdata("msg", "Login ou senha inválidos");
+      $this->session->set_flashdata("loginError", "Email ou senha inválidos");
+      $this->session->set_flashdata('errorDataLogin', $data);
+
       redirect("/");
     }
   }

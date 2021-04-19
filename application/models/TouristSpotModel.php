@@ -8,10 +8,10 @@ class TouristSpotModel extends CI_Model
     $sql = "SELECT id, name, description from tourist_spots";
     return $this->db->query($sql)->result();
   }
-  function store($name, $description, $userId)
+  function store($name, $description, $lat, $lng, $pictureId, $userId)
   {
-    $sql = "INSERT INTO `tourist_spots`(`name`, `description`, `created_by_id`) VALUES (?, ?, ?)";
-    $data = array($name, $description, $userId);
+    $sql = "INSERT INTO `tourist_spots`(`name`, `description`, `lat`, `lng`, `thumbnail_id`, `created_by_id`) VALUES (?, ?, ?, ?, ?, ?);";
+    $data = array($name, $description, $lat, $lng, $pictureId, $userId);
     $this->db->query($sql, $data);
   }
   function show($id)

@@ -6,88 +6,55 @@ class TouristSpot extends CI_Controller
   function __construct()
   {
     parent::__construct();
-
-    redirect('/');
+    if (!$this->session->userdata("user")) {
+      redirect('/');
+    }
   }
 
-  public function index()
-  {
-    $data['logged'] = !!$this->session->userdata("user");
-    $this->load->model('TouristSpotModel');
-
-    $data['touristSpots'] = $this->TouristSpotModel->index();
-
-    $this->load->view('template/header');
-    $this->load->view('touristSpot/index', $data);
-    $this->load->view('template/footer');
-  }
   public function store()
   {
     if (!$this->session->userdata("user")) {
       redirect('login/create');
     }
+    $data = array(
+      "name" => $this->input->post("name"),
+      "description" => $this->input->post("description"),
+      "lat" => $this->input->post("lat"),
+      "lng" => $this->input->post("lng"),
+      "userId" => $this->session->userdata("user")->id,
+    );
 
-    $name = $this->input->post("name");
-    $description = $this->input->post("description");
-    $userId = $this->session->userdata("user")->id;
+    $picture = $_FILES['thumb'];
+    $ext = explode('.', $picture['name']);
+    $ext = $ext[sizeof($ext) - 1];
+    $filename = uniqid('pic.', true);
+    $filename = "$filename.$ext";
 
-    $this->load->model('TouristSpotModel');
-    $data['users'] = $this->TouristSpotModel->store($name, $description, $userId);
+    $cfg_upload = array(
+      "upload_path" => "./uploads/pictures/",
+      "allowed_types" => "jpg|png",
+      "file_name" => $filename,
+      "max_size" => "100",
+    );
 
-    $this->session->set_flashdata('msg', "Ponto turistíco criado com sucesso!");
+    $this->load->library('upload');
+    $this->upload->initialize($cfg_upload);
 
-    redirect('touristSpot');
-  }
-  public function create()
-  {
-    if (!$this->session->userdata("user")) {
-      redirect('login/create');
-    }
-
-    $this->load->view('template/header');
-    $this->load->view('touristSpot/create');
-    $this->load->view('template/footer');
-  }
-  public function edit($id)
-  {
-    if (!$this->session->userdata("user")) {
-      redirect('login/create');
-    }
-
-    $this->load->model('TouristSpotModel');
-    $data['touristSpot'] = $this->TouristSpotModel->show($id)[0];
-
-    $this->load->view('template/header');
-    $this->load->view('touristSpot/edit', $data);
-    $this->load->view('template/footer');
-  }
-  public function update($id)
-  {
-    if (!$this->session->userdata("user")) {
-      redirect('login/create');
-    }
-
-    $name = $this->input->post("name");
-    $description = $this->input->post("description");
-
-    $this->load->model('TouristSpotModel');
-    $this->TouristSpotModel->update($id, $name, $description);
-
-    $this->session->set_flashdata('msg', "Ponto turistíco atualizado com sucesso!");
-
-    redirect('touristSpot');
-  }
-  public function delete($id)
-  {
-    if (!$this->session->userdata("user")) {
-      redirect('login/create');
+    if (!$this->upload->do_upload('thumb')) {
+      $this->session->set_flashdata('errorUpload', 'Ocorreu um erro ao fazer upload da imagem, tente novamente mais tarde');
+      $this->session->set_flashdata('errorUploadData', $data);
+      return redirect('/');
     }
 
     $this->load->model('TouristSpotModel');
-    $this->TouristSpotModel->delete($id);
+    $this->load->model('PictureModel');
+    $this->PictureModel->store($filename);
+    $pictureId = $this->PictureModel->show($filename)->id;
 
-    $this->session->set_flashdata('msg', "Ponto turistíco excluído com sucesso!");
+    $this->TouristSpotModel->store($data['name'], $data['description'], $data['lat'], $data['lng'], $pictureId, $data['userId']);
 
-    redirect('touristSpot');
+    $this->session->set_flashdata('successStore', "Ponto turistíco criado com sucesso!");
+
+    return redirect('/');
   }
 }

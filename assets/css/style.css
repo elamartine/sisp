@@ -167,7 +167,7 @@ header button + button {
 	width: 100%;
 	margin-bottom: 1em;
 }
-.custom-input > * {
+.custom-input > *:not(.error-message) {
 	width: 100%;
 	padding: 0.5em 1em;
 	border-radius: 4px;
