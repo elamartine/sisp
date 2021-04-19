@@ -205,7 +205,7 @@
                 Localização
                 <div id="map"></div>
 
-                <span class="text-danger fz-12 error-message" id="alert-location">Selecione a localização</span>
+                <span class="text-danger fz-12 error-message" id="alert-location">Selecione uma localização</span>
 
                 <input type="hidden" id="lat" name="lat" required />
                 <input type="hidden" id="lng" name="lng" required />
