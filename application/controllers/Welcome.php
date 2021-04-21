@@ -7,8 +7,11 @@ class Welcome extends CI_Controller
   {
     $data['logged'] = !!$this->session->userdata("user");
 
+    $this->load->model('TouristSpotModel');
+    $data['touristSpots'] = $this->TouristSpotModel->index();
+
     $this->load->view('template/header', $data);
     $this->load->view('index', $data);
-    $this->load->view('template/footer');
+    $this->load->view('template/footer', $data);
   }
 }

@@ -5,20 +5,33 @@ class TouristSpotModel extends CI_Model
 {
   function index()
   {
-    $sql = "SELECT id, name, description from tourist_spots";
+    $sql = "SELECT * FROM `tourist_spots` JOIN `pictures` ON tourist_spots.thumbnail_id = pictures.id WHERE `status` = 'publish'";
     return $this->db->query($sql)->result();
-  }
-  function store($name, $description, $lat, $lng, $pictureId, $userId)
-  {
-    $sql = "INSERT INTO `tourist_spots`(`name`, `description`, `lat`, `lng`, `thumbnail_id`, `created_by_id`) VALUES (?, ?, ?, ?, ?, ?);";
-    $data = array($name, $description, $lat, $lng, $pictureId, $userId);
-    $this->db->query($sql, $data);
   }
   function show($id)
   {
     $sql = "SELECT id, name, description FROM tourist_spots WHERE id = ?";
     $data = array($id);
     return $this->db->query($sql, $data)->result();
+  }
+  function indexModerate()
+  {
+    $sql = "SELECT * FROM `tourist_spots` JOIN `pictures` ON tourist_spots.thumbnail_id = pictures.id WHERE `status` = 'moderate' OR `status` = 'request'";
+    return $this->db->query($sql)->result();
+  }
+  function store($name, $description, $lat, $lng, $location, $status, $pictureId, $userId)
+  {
+    $sql = "INSERT INTO `tourist_spots`(`name`, `description`, `lat`, `lng`, `location`, `status`, `thumbnail_id`, `created_by_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    $data = array($name, $description, $lat, $lng, $location, $status, $pictureId, $userId);
+    $this->db->query($sql, $data);
+
+    return $this->db->insert_id();
+  }
+  function moderate($status, $id)
+  {
+    $sql = "UPDATE `tourist_spots` SET `status` = ? WHERE `tourist_spots`.`id` = ?";
+    $data = array($status, $id);
+    $this->db->query($sql, $data);
   }
   function update($id, $name, $description)
   {

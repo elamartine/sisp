@@ -252,7 +252,7 @@
 
 <div class="modal fade" id="spotModal">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content position-relative">
       <div class="modal-body p-0">
         <img src="" alt="" id="img-spot" class="img-fluid rounded-top w-100" />
         <div id="map-modal"></div>
@@ -262,6 +262,14 @@
             <p id="description" class="mb-0"></p>
           </div>
         </div>
+      </div>
+      <div class="validate-area">
+        <a class="rounded-circle bg-success text-white p-2 d-flex border-0 text-decoration-none text-center" href="#" id="approve-spot">
+          <i class="fas fa-check"></i>
+        </a>
+        <a class="rounded-circle bg-danger text-white p-2 d-flex border-0 text-decoration-none text-center" href="#" id="fail-spot">
+          <i class="fas fa-times"></i>
+        </a>
       </div>
     </div>
   </div>

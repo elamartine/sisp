@@ -110,6 +110,9 @@ header button + button {
 .fz-16 {
   font-size: 16px !important;
 }
+.fz-24 {
+  font-size: 24px !important;
+}
 .fw-semibold {
   font-weight: 600 !important;
 }
@@ -134,8 +137,22 @@ header button + button {
   margin-bottom: 2rem !important;
 }
 
+.flex-1 {
+  flex: 1 !important;
+}
+
 .spot {
+  background-color: inherit;
   transition: 0.3s transform;
+
+  text-align: start;
+
+  width: 100%;
+  padding: 0;
+  border: 0;
+}
+.spot * {
+  pointer-events: none;
 }
 .spot:hover {
   transform: scale(1.025);
@@ -191,9 +208,6 @@ header button + button {
 }
 
 @media screen and (min-width: 768px) {
-  .h-md-100 {
-    height: 100% !important;
-  }
   header button + button {
     margin-left: 0.75rem;
     margin-top: 0;
@@ -216,7 +230,7 @@ header button + button {
     margin: 0.5rem;
   }
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 992px) {
   body {
     margin-bottom: 58px;
   }
@@ -229,6 +243,11 @@ header button + button {
     padding: 16px 0;
 
     z-index: 900;
+  }
+}
+@media screen and (min-width: 992px) {
+  .h-lg-100 {
+    height: 100% !important;
   }
 }
 
@@ -261,6 +280,39 @@ header button + button {
   height: 300px;
   box-shadow: none;
   background: rgba(138, 138, 138, 0.11);
+}
+#map-modal {
+  height: 150px;
+  background: rgba(138, 138, 138, 0.11);
+}
+
+.validate-area {
+  position: absolute;
+  left: calc(100% + 16px);
+  bottom: 16px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 8px;
+}
+.validate-area i {
+  width: 16px;
+  height: 16px;
+
+  display: flex;
+  justify-content: center;
+}
+@media screen and (max-width: 768px) {
+  .validate-area {
+    position: absolute;
+    bottom: 0px;
+    left: unset;
+    right: 0;
+    top: calc(100% + 16px);
+
+    grid-template-columns: 1fr 1fr;
+    column-gap: 8px;
+  }
 }
 
 ::-webkit-scrollbar {

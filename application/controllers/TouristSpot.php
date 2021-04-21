@@ -21,20 +21,23 @@ class TouristSpot extends CI_Controller
       "description" => $this->input->post("description"),
       "lat" => $this->input->post("lat"),
       "lng" => $this->input->post("lng"),
+      "location" => $this->input->post("location"),
       "userId" => $this->session->userdata("user")->id,
+      "status" => $this->session->userdata("user")->role === 'common' ? 'request' : 'publish',
     );
 
     $picture = $_FILES['thumb'];
     $ext = explode('.', $picture['name']);
     $ext = $ext[sizeof($ext) - 1];
     $filename = uniqid('pic.', true);
+    $filename = str_replace(".", "_", $filename);
     $filename = "$filename.$ext";
 
     $cfg_upload = array(
       "upload_path" => "./uploads/pictures/",
       "allowed_types" => "jpg|png",
       "file_name" => $filename,
-      "max_size" => "100",
+      "max_size" => "1000",
     );
 
     $this->load->library('upload');
@@ -48,10 +51,11 @@ class TouristSpot extends CI_Controller
 
     $this->load->model('TouristSpotModel');
     $this->load->model('PictureModel');
-    $this->PictureModel->store($filename);
-    $pictureId = $this->PictureModel->show($filename)->id;
+    $idPicture = $this->PictureModel->store($filename);
 
-    $this->TouristSpotModel->store($data['name'], $data['description'], $data['lat'], $data['lng'], $pictureId, $data['userId']);
+    $idTourist = $this->TouristSpotModel->store($data['name'], $data['description'], $data['lat'], $data['lng'], $data['location'], $data['status'], $idPicture, $data['userId']);
+
+    $this->PictureModel->insertTouristId($idPicture, $idTourist);
 
     $this->session->set_flashdata('successStore', "Ponto turistíco criado com sucesso!");
 
