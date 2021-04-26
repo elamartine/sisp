@@ -268,3 +268,7 @@
 </div>
 
 <script src="<?= base_url('assets/js/register-modal-touristspot.js'); ?>"></script>
+
+<?php
+var_dump($_SESSION);
+?>
