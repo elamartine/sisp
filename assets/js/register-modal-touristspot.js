@@ -74,21 +74,18 @@ window.onload = (e) => {
 spotsEl.forEach((spotEl) => {
   spotEl.addEventListener("click", ({ target }) => {
     const value = JSON.parse(target.dataset.spot);
+    const baseUrl = document.querySelector("body").dataset.home;
 
     spotModalEl
       .querySelector("#img-spot")
       .setAttribute(
         "src",
-        `${`${location.origin}${
-          location.hostname === "localhost" && "/sisp"
-        }`}/uploads/pictures/${value.path}`
+        `${baseUrl}/uploads/pictures/${value.path}`
       );
     spotModalEl.querySelector("#title").textContent = value.name;
     spotModalEl.querySelector("#description").textContent = value.description;
 
     if (approveEl && failEl) {
-      const baseUrl = document.querySelector("body").dataset.home;
-
       approveEl.setAttribute("href", `${baseUrl}moderate/approve/${value.id}`);
       failEl.setAttribute("href", `${baseUrl}moderate/fail/${value.id}`);
     }
