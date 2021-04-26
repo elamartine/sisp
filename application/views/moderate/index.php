@@ -176,12 +176,12 @@
           </label>
 
           <label for="descriptionSpot" class="custom-input">
-            Nome
+            Descrição
 
             <?php if ($this->session->flashdata('errorUpload')) : ?>
-              <input type="text" id="descriptionSpot" name="description" placeholder="Um lugar muito bacana" value="<?= $this->session->flashdata('errorUploadData')['description']; ?>" required />
+              <textarea type="text" id="descriptionSpot" name="description" placeholder="Um lugar muito bacana" value="<?= $this->session->flashdata('errorUploadData')['description']; ?>" required></textarea>
             <?php else : ?>
-              <input type="text" id="descriptionSpot" name="description" placeholder="Um lugar muito bacana" required />
+              <textarea type="text" id="descriptionSpot" name="description" placeholder="Um lugar muito bacana" required></textarea>
             <?php endif; ?>
           </label>
 
