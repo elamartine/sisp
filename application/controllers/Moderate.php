@@ -16,7 +16,10 @@ class Moderate extends CI_Controller
     $data['logged'] = !!$this->session->userdata("user");
 
     $this->load->model('TouristSpotModel');
-    $data['touristSpots'] = $this->TouristSpotModel->indexModerate();
+    $this->load->model('ReportModel');
+    $touristSpots = $this->TouristSpotModel->indexModerate();
+    $reportSpots = $this->ReportModel->index();
+    $data['touristSpots'] = array_merge($touristSpots, $reportSpots);
 
     $this->load->view('template/header', $data);
     $this->load->view('moderate/index', $data);
@@ -25,7 +28,9 @@ class Moderate extends CI_Controller
   public function approve($id)
   {
     $this->load->model('TouristSpotModel');
+    $this->load->model('ReportModel');
     $this->TouristSpotModel->moderate('publish', $id);
+    $this->ReportModel->update($id);
 
     return redirect('/moderate');
   }
@@ -35,5 +40,21 @@ class Moderate extends CI_Controller
     $this->TouristSpotModel->moderate('archived', $id);
 
     return redirect('/moderate');
+  }
+  public function publish($id)
+  {
+    $name = $this->input->post('name');
+    $description = $this->input->post('description');
+    $status = $this->input->post('status');
+
+    $this->load->model('TouristSpotModel');
+    $this->TouristSpotModel->update($id, $name, $description, 'publish');
+
+    if ($status === 'moderate') {
+      $this->load->model('ReportModel');
+      $this->ReportModel->update($id);
+    }
+
+    return redirect('/');
   }
 }

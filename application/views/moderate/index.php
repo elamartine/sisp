@@ -4,7 +4,7 @@
       <div class="row justify-content-end">
         <div class="col-12 col-md-10 col-lg-6 col-xl-4">
           <div>
-            <input type="text" class="search-bar" placeholder="Pesquise por um ponto turístico" />
+            <!-- <input type="text" class="search-bar" placeholder="Pesquise por um ponto turístico" /> -->
           </div>
         </div>
       </div>
@@ -16,7 +16,7 @@
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4">
         <?php foreach ($touristSpots as $touristSpot) : ?>
           <div class="col py-rv-12">
-            <button type="button" class="spot d-flex flex-column text-decoration-none color-initial rounded shadow h-100" data-spot='<?= json_encode($touristSpot); ?>'>
+            <button type="button" class="spot d-flex flex-column text-decoration-none color-initial rounded shadow h-100 position-relative" data-spot='<?= json_encode($touristSpot); ?>'>
               <img src="<?= base_url("uploads/pictures/$touristSpot->path"); ?>" alt="Ponta Negra" class="thumb" />
               <div class="p-3 fz-14 w-100 flex-1 d-flex flex-column justify-content-between">
                 <div>
@@ -32,6 +32,11 @@
                   <span class="city ms-2"><?= $touristSpot->location; ?></span>
                 </div>
               </div>
+              <?php if ($touristSpot->status === "moderate") : ?>
+                <div class="p-2 bg-danger text-white d-flex rounded-circle position-absolute top-0 start-0 translate-middle">
+                  <i class="far fa-flag"></i>
+                </div>
+              <?php endif; ?>
             </button>
           </div>
         <?php endforeach; ?>
@@ -257,10 +262,47 @@
         <img src="" alt="" id="img-spot" class="img-fluid rounded-top w-100" />
         <div id="map-modal"></div>
         <div class="p-rv-32">
+          <div class="d-flex align-items-center justify-content-end">
+            <button class="d-flex bg-transparent border-0 text-rv-orange-1" data-bs-toggle="collapse" data-bs-target="#report-area" id="report-reveal">
+              <span class="fz-12"><i class="far fa-edit me-2"></i>Editar</span>
+            </button>
+          </div>
+
           <div>
             <h1 id="title" class="fw-bold fz-24 mb-3"></h1>
             <p id="description" class="mb-0"></p>
           </div>
+
+          <div class="mt-4" id="report-data">
+            <h2 class="fw-bold fz-14 mb-1">
+              Mensagem de <i>report</i>
+            </h2>
+
+            <p id="report-reason"></p>
+          </div>
+        </div>
+
+        <div class="collapse" id="report-area" data-reportlink="<?= base_url('/moderate/publish') ?>">
+          <?= form_open('', array('class' => 'p-rv-32 border-top', 'id' => 'report-form')) ?>
+          <h2 class="fw-bold fz-14 mb-4">
+            Editar informações registras e tornar ponto turistíco público
+          </h2>
+
+          <label for="nameSpot2" class="custom-input">
+            Nome
+            <input type="text" id="nameSpot2" name="name" placeholder="Praia da Redinha" required />
+          </label>
+
+          <label for="descriptionSpot2" class="custom-input">
+            Descrição
+            <textarea type="text" id="descriptionSpot2" name="description" placeholder="Um lugar muito bacana" required></textarea>
+          </label>
+
+          <input type="hidden" name="status" id="statusSpot2" />
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-rv-orange-1 fw-semibold">Reportar</button>
+          </div>
+          <?= form_close(); ?>
         </div>
       </div>
       <div class="validate-area">

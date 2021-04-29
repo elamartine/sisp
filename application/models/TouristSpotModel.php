@@ -16,7 +16,7 @@ class TouristSpotModel extends CI_Model
   }
   function indexModerate()
   {
-    $sql = "SELECT * FROM `tourist_spots` JOIN `pictures` ON tourist_spots.thumbnail_id = pictures.id WHERE `status` = 'moderate' OR `status` = 'request'";
+    $sql = "SELECT * FROM `tourist_spots` JOIN `pictures` ON tourist_spots.thumbnail_id = pictures.id WHERE `status` = 'request'";
     return $this->db->query($sql)->result();
   }
   function store($name, $description, $lat, $lng, $location, $status, $pictureId, $userId)
@@ -33,10 +33,10 @@ class TouristSpotModel extends CI_Model
     $data = array($status, $id);
     $this->db->query($sql, $data);
   }
-  function update($id, $name, $description)
+  function update($id, $name, $description, $status)
   {
-    $sql = "UPDATE tourist_spots SET name = ?, description = ? WHERE `tourist_spots`.`id` = ?;";
-    $data = array($name, $description, $id);
+    $sql = "UPDATE tourist_spots SET name = ?, description = ?, status = ? WHERE `tourist_spots`.`id` = ?";
+    $data = array($name, $description, $status, $id);
     $this->db->query($sql, $data);
   }
   function delete($id)

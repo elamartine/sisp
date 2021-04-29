@@ -98,6 +98,10 @@ header button + button {
   color: #fff;
 }
 
+textarea {
+  resize: none;
+}
+
 .color-initial {
   color: initial !important;
 }
@@ -109,6 +113,9 @@ header button + button {
 }
 .fz-16 {
   font-size: 16px !important;
+}
+.fz-20 {
+  font-size: 20px !important;
 }
 .fz-24 {
   font-size: 24px !important;
@@ -124,6 +131,9 @@ header button + button {
 }
 .text-rv-blue-1 {
   color: var(--rv-blue-1) !important;
+}
+.text-rv-orange-1 {
+  color: var(--rv-orange-1) !important;
 }
 
 .p-rv-32 {

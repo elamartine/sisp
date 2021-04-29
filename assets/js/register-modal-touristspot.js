@@ -3,6 +3,9 @@ const spotModalEl = document.querySelector("#spotModal");
 const spotModal = new bootstrap.Modal(spotModalEl);
 const approveEl = document.querySelector("#approve-spot");
 const failEl = document.querySelector("#fail-spot");
+const reportRevealEl = document.querySelector("#report-reveal");
+const reportAreaEl = document.querySelector("#report-area");
+const reportFormEl = document.querySelector("#report-form");
 let mapModal = null,
   marker = null;
 
@@ -80,7 +83,7 @@ spotsEl.forEach((spotEl) => {
       .querySelector("#img-spot")
       .setAttribute(
         "src",
-        `${baseUrl}/uploads/pictures/${value.path}`
+        `${baseUrl}uploads/pictures/${value.path}`
       );
     spotModalEl.querySelector("#title").textContent = value.name;
     spotModalEl.querySelector("#description").textContent = value.description;
@@ -88,6 +91,22 @@ spotsEl.forEach((spotEl) => {
     if (approveEl && failEl) {
       approveEl.setAttribute("href", `${baseUrl}moderate/approve/${value.id}`);
       failEl.setAttribute("href", `${baseUrl}moderate/fail/${value.id}`);
+    }
+    if (reportRevealEl) {
+      const urlReport = reportAreaEl.dataset.reportlink;
+      reportFormEl.setAttribute("action", `${urlReport}/${value.id}`);
+
+      if (!reportFormEl.querySelector('#reason')) {
+        reportFormEl.querySelector('#nameSpot2').value = value.name;
+        reportFormEl.querySelector('#descriptionSpot2').value = value.description;
+        reportFormEl.querySelector('#statusSpot2').value = value.status;
+        if (value.reason) {
+          document.querySelector('#report-data').classList.remove('d-none');
+          document.querySelector('#report-reason').textContent = value.reason;
+        } else {
+          document.querySelector('#report-data').classList.add('d-none');
+        }
+      }
     }
 
     mapModal.setCenter({ lat: Number(value.lat), lng: Number(value.lng) });

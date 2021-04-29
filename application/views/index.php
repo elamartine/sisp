@@ -4,7 +4,7 @@
       <div class="row justify-content-end">
         <div class="col-12 col-md-10 col-lg-6 col-xl-4">
           <div>
-            <input type="text" class="search-bar" placeholder="Pesquise por um ponto turístico" />
+            <!-- <input type="text" class="search-bar" placeholder="Pesquise por um ponto turístico" /> -->
           </div>
         </div>
       </div>
@@ -262,7 +262,33 @@
             <p id="description" class="mb-0"></p>
           </div>
         </div>
+
+        <?php if ($logged) : ?>
+          <div class="collapse" id="report-area" data-reportlink="<?= base_url('/report/store') ?>">
+            <?= form_open('', array('class' => 'p-rv-32 border-top', 'id' => 'report-form')) ?>
+            <h2 class="fw-bold fz-14 mb-0">
+              <i class="far fa-flag"></i>
+              Denunciar inconsistências nas informações deste ponto turistíco
+            </h2>
+            <label for="reason" class="custom-input">
+              <textarea name="reason" id="reason" placeholder="O lugar contém informações erradas, como por exemplo..." rows="3" required></textarea>
+            </label>
+
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-rv-orange-1 fw-semibold">Reportar</button>
+            </div>
+            <?= form_close(); ?>
+          </div>
+        <?php endif; ?>
       </div>
+
+      <?php if ($logged) : ?>
+        <div class="validate-area" dir="rtl">
+          <a class="rounded-circle bg-danger text-white p-2 d-flex border-0 text-decoration-none text-center" id="report-reveal" data-bs-toggle="collapse" href="#report-area">
+            <i class="far fa-flag"></i>
+          </a>
+        </div>
+      <?php endif; ?>
     </div>
   </div>
 </div>
