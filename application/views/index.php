@@ -133,6 +133,7 @@
           </label>
           <div class="d-flex flex-row align-items-end justify-content-between">
             <button type="button" class="text-decoration-underline border-0 bg-transparent p-0 text-rv-blue-1 fz-12" data-bs-toggle="modal" data-bs-target="#modal-register" data-bs-dismiss="modal">Cadastre-se</button>
+            <div class="g-signin2" data-onsuccess="loginGoogle" id="botao-login">Login</div>
             <button type="submit" class="btn btn-rv-orange-1 fw-semibold">Entrar</button>
           </div>
           <?= form_close(); ?>
@@ -294,3 +295,6 @@
 </div>
 
 <script src="<?= base_url('assets/js/register-modal-touristspot.js'); ?>"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="<?= base_url('assets/js/login.js')?>" async defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
