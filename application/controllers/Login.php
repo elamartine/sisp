@@ -11,7 +11,7 @@ class Login extends CI_Controller
       $hasWithEmail = $this->UserModel->findBy('email', $this->input->post("email"));
 
       if (!$hasWithEmail) {
-        $this->UserModel->store($this->input->post('email'), $this->input->post('name'), $this->input->post('userName'), $this->input->post('password'));
+        $this->UserModel->store($this->input->post('email'), $this->input->post('name'), $this->input->post('userName'), md5($this->input->post('password')));
       }
 
       $user = $this->UserModel->loginGoogle($this->input->post('email'));
