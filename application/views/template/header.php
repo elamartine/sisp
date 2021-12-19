@@ -45,6 +45,7 @@
                 <button type="button" class="btn btn-rv-blue-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#modal-login">Login</button>
                 <button type="button" class="btn btn-rv-orange-1 fw-semibold" data-bs-toggle="modal" data-bs-target="#modal-register">Cadastre-se</button>
               <?php else : ?>
+                <?= $this->session->userdata("user"); ?>
                 <?php if ($this->session->userdata("user")->role !== 'common') : ?>
                   <?= anchor('moderate', 'Área de moderação', array('class' => 'btn btn-rv-blue-2 fw-semibold me-lg-2 mb-3 mb-lg-0')); ?>
                 <?php endif; ?>
