@@ -141,6 +141,7 @@ function initMap() {
       alertLocationEl.classList.remove("d-none");
       submitBtnEl.disabled = true;
       isDisabled = true;
+      console.log(error);
     }
   });
 }
