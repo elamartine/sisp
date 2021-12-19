@@ -26,4 +26,10 @@ class UserModel extends CI_Model
     $data = array($email, $password);
     return $this->db->query($sql, $data)->result()[0];
   }
+  function loginGoogle($email)
+  {
+    $sql = "SELECT id, name, username, role FROM users WHERE email = ?";
+    $data = array($email);
+    return $this->db->query($sql, $data)->result()[0];
+  }
 }

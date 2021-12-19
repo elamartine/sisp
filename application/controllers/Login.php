@@ -5,23 +5,26 @@ class Login extends CI_Controller
 {
   public function store()
   {
-    if ($this->input->post("tipo_login") && ($this->input->post("tipo_login") == "api")) {
-      $user["login"] = $this->input->post("login");
-      $user["name"] = $this->input->post("nome");
-      $user["foto"] = $this->input->post("foto");
-      $user["tipo"] = 2;
+    $this->load->model('UserModel');
 
-      $user = (object) $user;
-      echo (json_encode($user));
+    if ($this->input->post("loginType") && ($this->input->post("loginType") == "google")) {
+      $hasWithEmail = $this->UserModel->findBy('email', $this->input->post("email"));
+
+      if (!$hasWithEmail) {
+        $this->UserModel->store($this->input->post('email'), $this->input->post('name'), $this->input->post('userName'), $this->input->post('password'));
+      }
+
+      $user = $this->UserModel->loginGoogle($this->input->post('email'));
+
       $this->session->set_userdata("user", $user);
-
+  
+      redirect('/');
     } else {
       $data = array(
         "email" => $this->input->post("email"),
         "password" => $this->input->post("password"),
       );
-  
-      $this->load->model('UserModel');
+      
       $user = $this->UserModel->login($data["email"], md5($data["password"]));
   
       if ($user) {
