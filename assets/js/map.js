@@ -1,6 +1,6 @@
 let map = null;
 let centerLatLng = { lat: -5.7878187, lng: -35.1996854 };
-let apiKey = "AIzaSyDrrB9We9tVcHsIjQmiEC0sIyMCIgxVtz0";
+let apiKey = "AIzaSyDEBK2ffxcCXYVpu-Mt9WmkEtQX7sv0CkQ";
 
 let inputLatEl = document.querySelector("#lat");
 let inputLngEl = document.querySelector("#lng");
